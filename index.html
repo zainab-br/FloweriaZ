@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!-- Nom: El Baçar
+ Prénom: Zainab
+ Code Apogée:24006034
+ Module: Programmation web
+ groupe TD: A02
+ groupe TP:A21 -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="Zainab ElBaçar" />
+  <title>Floweria – Vente de fleurs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --pink: #e91e63;
+      --green: #2e7d32;
+      --light: #fdfdfd;
+      --dark: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #fafafa;
+      color: var(--dark);
+    }
+
+    header {
+      background: linear-gradient(120deg, var(--pink), #ff8a80);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    nav {
+      background: white;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: var(--pink);
+    }
+
+    section {
+      padding: 60px 8%;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-content h3 {
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: var(--green);
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: var(--pink);
+      border: none;
+      padding: 12px 18px;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #c2185b;
+    }
+
+    footer {
+      background: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    /* Modal panier */
+    .cart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--pink);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .cart span {
+      font-weight: bold;
+    } 
+    .logo{width:70px;position:absolute;top:20px;left:20px;}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌸 Floweria</h1>
+    <p>Des fleurs fraîches pour chaque occasion</p>
+    <img src="logoforme.png" class="logo">
+    
+  </header>
+
+  <nav>
+    <a href="#produits">Produits</a>
+    <a href="#about">À propos</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="produits">
+    <h2 style="margin-bottom:30px">Nos bouquets</h2>
+    <div class="products">
+      <div class="card">
+        <img src="Bouquet_roses.png" />
+        <div class="card-content">
+          <h3>Bouquet Roses</h3>
+          <p class="price">250 DH</p>
+          <button onclick="addToCart()">Ajouter au panier</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="Bouquet_printemps.png" />
+        <div class="card-content">
+          <h3>Bouquet Printemps</h3>
+          <p class="price">300 DH</p>
+          <button onclick="addToCart()">Ajouter au panier</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="Bouquet_luxe.png" />
+        <div class="card-content">
+          <h3>Bouquet Luxe</h3>
+          <p class="price">450 DH</p>
+          <button onclick="addToCart()">Ajouter au panier</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="background:#fff">
+    <h2>À propos</h2>
+    <p style="margin-top:20px; max-width:700px">
+      Floweria est une boutique en ligne spécialisée dans la vente de fleurs naturelles.
+      Nous livrons des bouquets élégants et frais partout au Maroc.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p style="margin-top:20px">📞 +212 6 00 00 00 00</p>
+    <p>📧 contact@floweria.ma</p>
+  </section>
+
+  <footer>
+    <p>© 2026 Floweria – Tous droits réservés</p>
+  </footer>
+
+  <div class="cart" onclick="showCart()">
+    🛒 Panier : <span id="count">0</span>
+  </div>
+
+  <script language="javascript" >
+    let count = 0;
+
+    function addToCart() {
+      count++;
+      document.getElementById('count').innerText = count;
+    }
+
+    function showCart() {
+      alert('Vous avez ' + count + ' article(s) dans votre panier');
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+
